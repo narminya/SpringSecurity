@@ -33,11 +33,10 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/api/v1/management/**").hasAnyRole("ADMIN", "MANAGER")
-                                .requestMatchers(GET, "/api/v1/management/**").hasAnyRole("ADMIN", "MANAGER")
-                                .requestMatchers(POST, "/api/v1/management/**").hasAnyRole("ADMIN", "MANAGER")
-                                .requestMatchers(PUT, "/api/v1/management/**").hasAnyRole("ADMIN", "MANAGER")
-                                .requestMatchers(DELETE, "/api/v1/management/**").hasAnyRole("ADMIN", "MANAGER")
+                                .requestMatchers(GET, "/api/v2/**").hasAnyRole("ADMIN", "MANAGER")
+                                .requestMatchers(POST, "/api/v2/**").hasAnyRole("ADMIN")
+                                .requestMatchers(PUT, "/api/v2/**").hasAnyRole("ADMIN")
+                                .requestMatchers(DELETE, "/api/v2/**").hasAnyRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )
@@ -45,7 +44,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout ->
-                        logout.logoutUrl("/api/v1/auth/logout")
+                        logout.logoutUrl("/api/v2/auth/logout")
                                 .addLogoutHandler(logoutHandler)
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 )
